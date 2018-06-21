@@ -1,0 +1,120 @@
+<mat-toolbar color="primary">
+  <span>DjNg CRUD</span>
+  <span class="example-spacer"></span>
+  <span>Welcome {{ account.username }}</span>
+  &nbsp; &nbsp;
+  <button mat-ripple mat-raised-button (click)="logoutClicked()" id="logoutBtn" color="accent">Logout</button>
+  <br>
+
+</mat-toolbar>
+<mat-drawer-container class="example-container">
+  <mat-drawer class="example-drawer" mode="side" opened="true">
+    <br>
+    <br>
+    <button mat-ripple mat-raised-button (click)="editaddemp()" color="accent">New page</button>
+
+    <br>
+    <br>
+    <button mat-ripple mat-raised-button (click)="addEmployeeClicked()" color="accent">Add New</button>
+  </mat-drawer>
+  <mat-drawer-content>
+    <div class="container">
+
+
+      <br>
+      <h2><legend>Employee List</legend></h2>
+      <br>
+      <table class="table table-bordered">
+        <thead>
+
+          <tr>
+            <th>Id</th>
+            <th> Name </th>
+            <th> position </th>
+            <th>Mobile No </th>
+            <th>Edit</th>
+            <th>Delete</th>
+
+          </tr>
+
+        </thead>
+        <tbody>
+          <tr *ngFor="let employee of employees;" (click)="employeeClicked(employee)" class="employeeClickable">
+            <td> {{employee.id}} </td>
+            <td> {{employee.name}} </td>
+            <td> {{employee.position}} </td>
+
+
+            <td> {{employee.mobileNo}} </td>
+
+
+            <td>
+              <button class="crud" mat-ripple mat-raised-button (click)="editaddemp(employee.id)" color="accent"><mat-icon>edit</mat-icon></button>
+            </td>
+            <td>
+              <button class="crud" mat-ripple mat-raised-button (click)="deleteEmployeeClicked()" color="warn"><mat-icon>delete</mat-icon></button>
+            </td>
+          </tr>
+        </tbody>
+
+
+      </table>
+
+
+
+    </div>
+    <div >
+      <div *ngIf="selectedEmployee && !isAddEditMode">
+        <h2>Details:</h2>
+
+        <h4>{{selectedEmployee.name}}</h4>
+        <p>{{selectedEmployee.position}}</p>
+        <p>{{selectedEmployee.mobileNo}}</p>
+        <button mat-ripple mat-raised-button (click)="editEmployeeClicked()" color="accent">Edit Employee</button>
+        &nbsp; &nbsp; &nbsp;
+        <button mat-ripple mat-raised-button (click)="deleteEmployeeClicked()" color="warn">Remove Employee</button>
+      </div>
+
+      <div *ngIf="isAddEditMode">
+        <h2>
+          <span *ngIf="isEdit">Edit</span>
+          <span *ngIf="!isEdit">New</span>
+          Employee:
+        </h2>
+        <form (ngSubmit)="submitEmployee()" [formGroup]="employeeInput">
+          <div class="form-group">
+            <mat-form-field class="example-full-width">
+              <input matInput placeholder="Name" formControlName="name">
+              <mat-error *ngIf="employeeInput.get('name').hasError('required')">
+                Title is
+                <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+            <br>
+            <mat-form-field class="example-full-width">
+              <textarea matInput placeholder="position" formControlName="position">
+                </textarea>
+              <mat-error *ngIf="employeeInput.get('position').hasError('required')">
+                Description is
+                <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field class="example-full-width">
+              <textarea matInput placeholder="mobileNo" formControlName="mobileNo">
+                </textarea>
+              <mat-error *ngIf="employeeInput.get('mobileNo').hasError('required')">
+                Mobile no is
+                <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <button mat-ripple mat-raised-button type="submit" [disabled]="employeeInput.invalid || loading" color="primary">Save</button>
+          <br>
+          <mat-spinner class="spinner" *ngIf="loading"></mat-spinner>
+        </form>
+      </div>
+
+    </div>
+  </mat-drawer-content>
+
+</mat-drawer-container>

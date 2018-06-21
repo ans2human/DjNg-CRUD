@@ -1,0 +1,56 @@
+<mat-toolbar color="primary">
+  <span (click)="sendMeHome()">go to home</span>
+  <span class="example-spacer"></span>
+  <span>Welcome {{ account.username }}</span>
+  &nbsp; &nbsp; &nbsp;
+  <button mat-ripple mat-raised-button (click)="logoutClicked()" id="logoutBtn" color="accent">Logout</button>
+  <br>
+</mat-toolbar>
+
+
+<div isAddEditMode = true >
+
+  <h2>
+    <span *ngIf="isEdit">Edit</span>
+    <span *ngIf="!isEdit">New</span>
+    Employee:
+  </h2>
+
+  <form (ngSubmit)="submitEmployee()" [formGroup]="employeeInput">
+    <div class="form-group">
+
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="Name" formControlName="name" [(ngModel)]="name" value= {{name}} >
+        <mat-error *ngIf="employeeInput.get('name').hasError('required')">
+          Title is
+          <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+
+      
+
+
+
+      <br>
+      <mat-form-field class="example-full-width">
+        <textarea matInput placeholder="position" [(ngModel)]="position" formControlName="position" value= {{position}} >
+                    </textarea>
+        <mat-error *ngIf="employeeInput.get('position').hasError('required')">
+          Description is
+          <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <textarea matInput placeholder="mobileNo" [(ngModel)]="mobileNo"  formControlName="mobileNo" value= {{mobileNo}} >
+                    </textarea>
+        <mat-error *ngIf="employeeInput.get('mobileNo').hasError('required')">
+          Mobile no is
+          <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <button mat-ripple mat-raised-button type="submit" [disabled]="employeeInput.invalid || loading" color="primary">Save</button>
+    <br>
+    <mat-spinner class="spinner" *ngIf="loading"></mat-spinner>
+  </form>
+</div>
